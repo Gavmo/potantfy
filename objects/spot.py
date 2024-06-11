@@ -23,7 +23,12 @@ class Spot:
 
     def __eq__(self, other):
         """Use the provided unique key"""
-        return self.spotId == other.spotId
+        if type(other) == Spot:
+            return self.spotId == other.spotId
+        elif type(other) == str:
+            return self.spotId == int(other)
+        elif type(other) == int:
+            return self.spotId == other
 
     @property
     def timestamp(self):
