@@ -36,10 +36,16 @@ class Spots:
             if spot["spotId"] not in self.all_spots:
                 self.add_spot(spot)
 
+    def get_spots_by_program(self, program_cd):
+        """Since the lists are dynamically generated, this function will return the specific program if it exists"""
+        if hasattr(self, f"{program_cd.upper()}_spots"):
+            return getattr(self, f"{program_cd.upper()}_spots")
+
 
 # Quick tests
 if __name__ == '__main__':
     with open("../tests/testjson", "r") as json_file:
         a = Spots()
         a.import_json(json_file.read())
+        assert len(a.get_spots_by_program("au")) == 5
         pass
