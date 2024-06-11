@@ -3,7 +3,10 @@
 """
 import json
 
-from .spot import Spot
+try:
+    from .spot import Spot
+except ImportError:
+    from spot import Spot
 
 
 class Spots:
@@ -41,6 +44,18 @@ class Spots:
         if hasattr(self, f"{program_cd.upper()}_spots"):
             return getattr(self, f"{program_cd.upper()}_spots")
 
+    def get_latest_unique_parks(self, program_cd=None):
+        if program_cd:
+            spot_dict = {}
+            for spot in self.get_spots_by_program(program_cd):
+                if spot.reference not in spot_dict.keys():
+                    spot_dict[spot.reference] = []
+                spot_dict[spot.reference].append(spot)
+            # Now only leave the most recent spot in the dictionary
+            for park in spot_dict.keys():
+                spot_dict[park] = max(spot_dict[park])
+            return spot_dict
+
 
 # Quick tests
 if __name__ == '__main__':
@@ -48,4 +63,5 @@ if __name__ == '__main__':
         a = Spots()
         a.import_json(json_file.read())
         assert len(a.get_spots_by_program("au")) == 5
+        b = a.get_latest_unique_parks("jp")
         pass
