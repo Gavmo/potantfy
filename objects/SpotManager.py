@@ -3,7 +3,7 @@
 """
 import json
 
-from spot import Spot
+from .spot import Spot
 
 
 class Spots:
