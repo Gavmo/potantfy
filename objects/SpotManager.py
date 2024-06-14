@@ -41,8 +41,11 @@ class Spots:
 
     def get_spots_by_program(self, program_cd):
         """Since the lists are dynamically generated, this function will return the specific program if it exists"""
+        # Need an empty list to prevent iteration of a Nonetype
+        return_list = []
         if hasattr(self, f"{program_cd.upper()}_spots"):
-            return getattr(self, f"{program_cd.upper()}_spots")
+            return_list = getattr(self, f"{program_cd.upper()}_spots")
+        return return_list
 
     def get_latest_unique_parks(self, program_cd=None):
         if program_cd:

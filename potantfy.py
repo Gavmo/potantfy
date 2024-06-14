@@ -16,8 +16,9 @@ def get_data():
     the API
     """
     return_data = ""
-    with open("tests/testjson", "r") as json_file:
-        return_data = json_file.read()
+    spot_data = requests.get(config.spot_endpoint)
+    if spot_data.status_code == 200:
+        return_data = spot_data.text
     return return_data
 
 
