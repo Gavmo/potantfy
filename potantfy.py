@@ -41,6 +41,9 @@ def run(interval=5):
         spots.import_json(get_data())
         for park, spot in spots.get_latest_unique_parks("au").items():
             if spot.spotId not in processed_ids:
+                # Pause between notifications to prevent suppression
+                # Remove this if it causes spamming
+                time.sleep(0.75)
                 send_notification(spot)
         processed_ids = [x.spotId for _, x in spots.get_latest_unique_parks("au").items()]
         time.sleep(interval * 60)
